@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Sep 28 09:43:54 2022
-
-@author: 靳笑宇
-"""
-
 import streamlit as st
 import pandas as pd
 import base64
