@@ -3,4 +3,3 @@ streamlit==1.12.2
 pandas
 matplotlib
 seaborn
-base64
