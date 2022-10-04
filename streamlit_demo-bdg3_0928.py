@@ -22,8 +22,8 @@ This app performs simple visualization of the high-level list.
 
 st.sidebar.header('User Input Features')
 
-path_dataset = r'C:\Users\靳笑宇\Desktop\projects in NUS\Building Directory\Dataset intro\visualization\streamlit\dataset'
-dataset = pd.read_excel(os.path.join(path_dataset, 'Dataset Intro List 0928.xlsx'), header=None)
+#path_dataset = r'C:\Users\靳笑宇\Desktop\projects in NUS\Building Directory\Dataset intro\visualization\streamlit\dataset'
+dataset = pd.read_excel('Dataset Intro List 0928.xlsx', header=None)
 #%%
 #向下填充column name使得line 2 的column name皆为有效
 dataset.loc[2, dataset.loc[2].isna()] = dataset.loc[1, dataset.loc[2].isna()]
