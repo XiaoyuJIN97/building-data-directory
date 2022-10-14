@@ -5,3 +5,4 @@ seaborn==0.11.0
 pybase64==1.2.3
 altair==4.2.0
 plotly==5.10.0
+openpyxl==3.0.0
