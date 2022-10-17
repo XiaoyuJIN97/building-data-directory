@@ -100,7 +100,9 @@ if len(selected_var2)<2:
     
 else:
     dataset_info_filtered = dataset_info[dataset_info[var1].isin(selected_var1)]
-dataset_info_filtered.columns = dataset_info_filtered.columns.rename(name='#')    
+    
+dataset_info_filtered.columns = dataset_info_filtered.columns.rename(name='#') 
+                                                                 
 st.write('Data Dimension: ' + str(dataset_info_filtered.shape[0]) + ' rows and ' + str(dataset_info_filtered.shape[1]) + ' columns.')
 
 #%%
@@ -117,6 +119,7 @@ for i in range(len(dataset_info_filtered)):
     dataset_info_filtered['URL'][i] =  f'<a href="{url}">{url}</a>'
 #%%
 dataset_info_filtered = dataset_info_filtered.reset_index(drop=True)
+dataset_info_filtered.index = dataset_info_filtered.index + 1 
 dataset_html = dataset_info_filtered.to_html(escape=False)
 st.write(dataset_html, unsafe_allow_html=True)
 #st.dataframe(dataset_info_filtered)
