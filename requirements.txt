@@ -6,3 +6,4 @@ pybase64==1.2.3
 altair==4.2.0
 plotly==5.10.0
 openpyxl==3.0.0
+gsheetsdb ==0.1.13.1
