@@ -32,7 +32,7 @@ sh = client.open(spreadsheetname)
 worksheet_list = sh.worksheets()
 
 # Functions 
-@st.cache()
+@st.cache(ttl=600)
 # Get our worksheet names
 def worksheet_names():
     sheet_names = []   
