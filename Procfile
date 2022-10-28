@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run streamlit_demo-bdg3_1017.py
+web: sh setup.sh && streamlit run META_DIRECTORY.py
