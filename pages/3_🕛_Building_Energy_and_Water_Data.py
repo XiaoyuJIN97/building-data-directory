@@ -7,11 +7,13 @@ Created on Wed Sep 28 09:43:54 2022
 
 import streamlit as st
 import pandas as pd
+from pandas import DataFrame
 import base64
-import numpy as np
 import altair as alt
 import plotly.express as px
-import matplotlib.pyplot as plt
+from gspread_pandas import Spread,Client
+from google.oauth2 import service_account
+import ssl 
 
 st.title('Building Energy and Water Data')
 
@@ -21,15 +23,31 @@ This app performs simple visualization of the high-level list.
 """)
 
 st.sidebar.header('User Input Features')
+#%%
+# Get the sheet as dataframe
+def load_the_spreadsheet(spreadsheetname):
+    worksheet = sh.worksheet(spreadsheetname)
+    df = DataFrame(worksheet.get_all_records())
+    return df
+#%% 
+#Link to google sheet
+ssl._create_default_https_context = ssl._create_unverified_context
 
-#path_dataset = r'C:\Users\靳笑宇\Desktop\projects in NUS\Building Directory\Dataset intro\visualization\streamlit\dataset'
-dataset = pd.read_excel('https://github.com/XiaoyuJIN97/building-data-directory/blob/master/Dataset%20Intro%20List%201017.xlsx?raw=true', header=None)
+# Create a Google Authentication connection object
+scope = ["https://www.googleapis.com/auth/spreadsheets",
+         "https://www.googleapis.com/auth/drive"]
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"],
+    scopes=scope)
+client = Client(scope=scope,creds=credentials)
+
+spreadsheetname = "Dataset_Intro_List"
+spread = Spread(spreadsheetname,client = client)
+sh = client.open(spreadsheetname)
+dataset = load_the_spreadsheet('3.Energy')
+
 #%%
-#向下填充column name使得line 2 的column name皆为有效
-dataset.loc[2, dataset.loc[2].isna()] = dataset.loc[1, dataset.loc[2].isna()]
-dataset.loc[2, dataset.loc[2].isna()] = dataset.loc[0, dataset.loc[2].isna()]
-#%%
-dataset.columns = dataset.loc[2]
+#dataset.columns = dataset.loc[0]
 dataset = dataset.drop([0,1,2]).reset_index(drop=True)
 dataset = dataset.apply(pd.to_numeric, errors='ignore')
 dataset.columns = dataset.columns.str.replace('\u202f', '')
@@ -38,7 +56,7 @@ dataset.columns = dataset.columns.str.replace('55154\\u202f', '')
 dataset.columns = dataset.columns.str.replace('\u202f\xa0', '')
 #dataset_info = [str(x).encode('UTF8') for x in dataset_info]
 #%%
-dataset_info = dataset.iloc[:35, :8]
+dataset_info = dataset.iloc[:, :8]
 dataset_info ['Building Type'] = dataset['Building Type']
 dataset_info ['URL'] = dataset['URL']
 dataset_info.iloc[:,:9] = dataset_info.iloc[:,:9].astype(str)
@@ -55,9 +73,9 @@ dataset_info ['Maximum Floor Area'] = dataset['Maximum Floor Area (m2)']
 dataset_info['Sample Number'] = dataset['Sample Number'] 
 dataset_info['Variable Number'] = dataset['Variable Number']
 
-dataset_info[['Dataset Abbreviation','Energy Rating', 'Occupancy','Envelope Information ', 'Household Information ',
+dataset_info[['Dataset Abbreviation','Energy Rating', 'Occupancy','Envelope Information', 'Household Information',
        'Energy Device Installation', 'Green House Gas Emission']] = dataset[['Dataset Abbreviation','Energy Rating', 'Occupancy',
-       'EnvelopeInformation ', 'HouseholdInformation ',
+       'Envelope Information', 'Household Information',
        'Energy Device Installation', 'Green House Gas Emission']]
 
 dataset_info[['Total Energy Consumption', 'Electricity Consumption',
@@ -241,7 +259,7 @@ with st.expander("Variable Numbers"):
     st.altair_chart(bub1.interactive(), use_container_width=True)   
 #%%Heatmap for variable types
 source1 = dataset_info_filtered[['Dataset Abbreviation','Energy Rating', 'Occupancy',
-       'Envelope Information ', 'Household Information ',
+       'Envelope Information', 'Household Information',
        'Energy Device Installation', 'Green House Gas Emission']]
 df1 = source1.set_index('Dataset Abbreviation')
 df1.columns = df1.columns.rename(name='Variable Type (0 = not included, 1 = included)')
@@ -269,3 +287,31 @@ with st.expander("Variable Categories of Energy Consumption"):
     fig2.update_yaxes(tickfont=dict(family='Rockwell', size=10))
     fig2.update_layout(coloraxis_showscale=False)
     st.plotly_chart(fig2, use_container_width=True)
+#%% Functions for writing in google sheet
+# Update to Sheet
+def update_the_spreadsheet(spreadsheetname,dataframe):
+    #col = ['Dataset Full Name','URL']
+    spread.df_to_sheet(dataframe,sheet = spreadsheetname,index= False)
+    st.sidebar.info('✅ Submitted succussfully! Thank you for contributing!')
+
+#%%
+add = st.sidebar.checkbox('Add New Dataset')
+if add :  
+    name_entry = st.sidebar.text_input('Dataset Name')
+    url_entry = st.sidebar.text_input('URL')
+    country_entry = st.sidebar.text_input('Country')
+    
+    #time_entry = st.sidebar.text_input('Time Interval')
+    #type_entry = st.sidebar.text_input('Building Type')
+    
+    confirm_input = st.sidebar.button('Confirm')
+    
+    if confirm_input:
+        opt = {'Dataset Full Name': [name_entry],
+              'URL' :  [url_entry],
+              'Country': [country_entry]} 
+        opt_df = DataFrame(opt)
+        df = load_the_spreadsheet('Aggregation')
+        new_df = pd.concat([df, opt_df], sort=False)
+        update_the_spreadsheet('Aggregation',new_df)
+        st.experimental_rerun()
