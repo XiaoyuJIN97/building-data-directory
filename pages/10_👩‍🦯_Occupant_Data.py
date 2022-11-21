@@ -50,11 +50,12 @@ sh = client.open(spreadsheetname)
 dataset = load_the_spreadsheet('10.Occupant')
 #%%
 dataset= dataset.reset_index(drop=True)
-dataset.index = dataset.index + 1 
+
 for i in range(len(dataset)):
     url = dataset['URL'][i]
     dataset['URL'][i] =  f'<a href="{url}">{url}</a>'
+dataset.index = dataset.index + 1 
 dataset_html = dataset.to_html(escape=False)
 st.write(dataset_html, unsafe_allow_html=True)
 #st.dataframe(dataset_info_filtered)
-st.markdown(filedownload(dataset), unsafe_allow_html=True)         
+st.markdown(filedownload(dataset), unsafe_allow_html=True)     
