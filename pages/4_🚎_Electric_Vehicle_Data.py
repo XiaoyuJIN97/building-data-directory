@@ -50,6 +50,11 @@ sh = client.open(spreadsheetname)
 dataset = load_the_spreadsheet('4.Electric Vehicle')
 #%%
 dataset= dataset.reset_index(drop=True)
+
+for i in range(len(dataset)):
+    url = dataset['URL'][i]
+    dataset['URL'][i] =  f'<a href="{url}">{url}</a>'
+    
 dataset.index = dataset.index + 1 
 dataset_html = dataset.to_html(escape=False)
 st.write(dataset_html, unsafe_allow_html=True)

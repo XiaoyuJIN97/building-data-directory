@@ -17,10 +17,10 @@ import ssl
 
 st.title('Building Energy and Water Data')
 
-st.markdown("""
-This app performs simple visualization of the high-level list.
-* **Python libraries:** base64, pandas, streamlit
-""")
+#st.markdown("""
+#This app performs simple visualization of the high-level list.
+#* **Python libraries:** base64, pandas, streamlit
+#""")
 
 st.sidebar.header('User Input Features')
 #%%
@@ -45,7 +45,12 @@ spreadsheetname = "Dataset_Intro_List"
 spread = Spread(spreadsheetname,client = client)
 sh = client.open(spreadsheetname)
 dataset = load_the_spreadsheet('3.Energy')
-
+#%%
+# Get the sheet as dataframe
+def load_the_spreadsheet(spreadsheetname):
+    worksheet = sh.worksheet(spreadsheetname)
+    df = DataFrame(worksheet.get_all_records())
+    return df
 #%%
 #dataset.columns = dataset.loc[0]
 dataset = dataset.drop([0,1,2]).reset_index(drop=True)
@@ -287,31 +292,3 @@ with st.expander("Variable Categories of Energy Consumption"):
     fig2.update_yaxes(tickfont=dict(family='Rockwell', size=10))
     fig2.update_layout(coloraxis_showscale=False)
     st.plotly_chart(fig2, use_container_width=True)
-#%% Functions for writing in google sheet
-# Update to Sheet
-def update_the_spreadsheet(spreadsheetname,dataframe):
-    #col = ['Dataset Full Name','URL']
-    spread.df_to_sheet(dataframe,sheet = spreadsheetname,index= False)
-    st.sidebar.info('✅ Submitted succussfully! Thank you for contributing!')
-
-#%%
-add = st.sidebar.checkbox('Add New Dataset')
-if add :  
-    name_entry = st.sidebar.text_input('Dataset Name')
-    url_entry = st.sidebar.text_input('URL')
-    country_entry = st.sidebar.text_input('Country')
-    
-    #time_entry = st.sidebar.text_input('Time Interval')
-    #type_entry = st.sidebar.text_input('Building Type')
-    
-    confirm_input = st.sidebar.button('Confirm')
-    
-    if confirm_input:
-        opt = {'Dataset Full Name': [name_entry],
-              'URL' :  [url_entry],
-              'Country': [country_entry]} 
-        opt_df = DataFrame(opt)
-        df = load_the_spreadsheet('Aggregation')
-        new_df = pd.concat([df, opt_df], sort=False)
-        update_the_spreadsheet('Aggregation',new_df)
-        st.experimental_rerun()
