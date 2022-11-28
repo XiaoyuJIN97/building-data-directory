@@ -284,8 +284,8 @@ df2 = source2.set_index('Dataset Abbreviation')
 df2.columns = df2.columns.rename(name='Variable Categories of Energy Consumption')
 with st.expander("Variable Categories of Energy Consumption"):
     st.markdown("""
-    * **Variable Categories of Energy Consumption
-    (0 for not having this variable, 1 for having numerical variable, 2 for having categorical variable)**
+    * **Variable Categories of Energy Consumption**
+    (0 for not having this variable, 1 for having numerical variable, 2 for having categorical variable)
     """)
     fig2 = px.imshow(df2,text_auto=True,aspect="auto",width=900, height=600)
     fig2.update_xaxes(tickangle=45,side="bottom",tickfont=dict(family='Rockwell', size=10))
