@@ -17,10 +17,11 @@ import ssl
 
 st.title('Building Energy and Water Data')
 
-#st.markdown("""
-#This app performs simple visualization of the high-level list.
-#* **Python libraries:** base64, pandas, streamlit
-#""")
+st.markdown("""
+##### The building energy and water datasets include the measured building energy or water consumption data.\n
+##### Some datasets also provide extra information of the buildings.\n
+##### The visualization of meta data can be found below the form.
+""")
 
 st.sidebar.header('User Input Features')
 #%%

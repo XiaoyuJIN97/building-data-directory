@@ -19,6 +19,13 @@ st.set_page_config(
     page_title="Building Information Data"
 )
 st.write("# Building Information Data")
+st.markdown(""" ##### The building information datasets can be oatained from the *construction or project management
+            report*, *building supervision and rating record*, as well as the *geographical information system*.\n
+            ##### Typical variables include the building's geometric parameters, the energy system in use,
+            the status of quality/safety/site management, etc.\n
+            ##### The users can also upload data with the information from multiple dimensions such as the social 
+            economical factors.
+            """)
 #%%
 # Get the sheet as dataframe
 def load_the_spreadsheet(spreadsheetname):

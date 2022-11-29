@@ -18,6 +18,9 @@ st.set_page_config(
     page_title="Building Energy Models"
 )
 st.write("# Building Energy Models")
+st.markdown("""##### The datasets about building energy models provide 
+            the files of constructed building energy models by simulation softwares such as EnergyPlus.
+            ##### Sometimes these datasets are also published with the output energy consumption data.""")
 #%%
 # Get the sheet as dataframe
 def load_the_spreadsheet(spreadsheetname):
@@ -54,6 +57,7 @@ for i in range(len(dataset)):
     url = dataset['URL'][i]
     dataset['URL'][i] =  f'<a href="{url}">{url}</a>'
 dataset.index = dataset.index + 1 
+st.write('Data Dimension: ' + str(dataset.shape[0]) + ' rows and ' + str(dataset.shape[1]) + ' columns.')
 dataset_html = dataset.to_html(escape=False)
 st.write(dataset_html, unsafe_allow_html=True)
 #st.dataframe(dataset_info_filtered)

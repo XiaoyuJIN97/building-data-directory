@@ -19,6 +19,11 @@ st.set_page_config(
     page_title="Building Energy Ontologies"
 )
 st.write("# Building Energy Ontologies")
+st.markdown("""
+            ##### The datasets about building energy ontologies is for building data semantic modeling. Any datasets related with this can be included.\n
+            ##### The typical ontology schemas include *haystack*, *brick schema*, etc.\n
+            ##### Besides the datasets of those ontology schemas, the meta datasets with proper label methods which can be used for constructing building onlogies are also welcome.
+            """)
 #%%
 # Get the sheet as dataframe
 def load_the_spreadsheet(spreadsheetname):
@@ -54,6 +59,7 @@ for i in range(len(dataset)):
     url = dataset['URL'][i]
     dataset['URL'][i] =  f'<a href="{url}">{url}</a>'
 dataset.index = dataset.index + 1    
+st.write('Data Dimension: ' + str(dataset.shape[0]) + ' rows and ' + str(dataset.shape[1]) + ' columns.')
 dataset_html = dataset.to_html(escape=False)
 st.write(dataset_html, unsafe_allow_html=True)
 #st.dataframe(dataset_info_filtered)
