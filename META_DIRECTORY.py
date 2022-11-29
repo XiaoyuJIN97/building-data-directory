@@ -14,11 +14,11 @@ import ssl
 
 #Page title
 st.set_page_config(
-    page_title="Meta Directory",
+    page_title="Building Data Genome Directory",
 )
 
 #Text contents
-st.title("# Building Data Directory")
+st.title("# Building Data Genome Directory")
 st.subheader('👋 Welcome to Building Data Directory! ')
 
 st.markdown(
