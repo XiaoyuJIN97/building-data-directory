@@ -23,14 +23,14 @@ st.subheader('👋 Welcome to Building Data Directory! ')
 
 st.markdown(
     """
-This is a comprehensive building dataset collection, where you can find the links for the datasets related with building energy research.\n
-You are also more than welcome to contribute your own datasets, by clicking the check button *'Add New Dataset'* on the left bar.
+##### This is a comprehensive building dataset collection, where you can find the links for the datasets related with building energy research.\n
+##### You are also more than welcome to contribute your own datasets, by clicking the check button *'Add New Dataset'* on the left bar.
 """)
 
 st.subheader('Dataset Categories')
 st.markdown(
     """
-What kinds of datasets are you looking for?
+##### What kinds of datasets are you looking for?
 """)
 st.image("https://github.com/XiaoyuJIN97/building-data-directory/raw/master/meta%20directory.png")
 
@@ -101,9 +101,11 @@ if add:
             '11 Other Categories']
     select_type = st.sidebar.selectbox('Dataset Type',Type)
     
-    email = st.sidebar.text_input('Please leave your email')
+    email = st.sidebar.text_input('Please leave your email (optional)')
+    confirm_input = 0
     
-    confirm_input = st.sidebar.button('Confirm')
+    if (len(name_entry) != 0) & (len(url_entry) != 0):      
+        confirm_input = st.sidebar.button('Confirm')
     
     if confirm_input:
         opt = {'Dataset Full Name': [name_entry],
