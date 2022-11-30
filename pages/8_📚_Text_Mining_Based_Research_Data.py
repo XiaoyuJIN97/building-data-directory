@@ -6,6 +6,14 @@ Created on Wed Oct 26 10:26:12 2022
 """
 
 import streamlit as st
+import pandas as pd
+from pandas import DataFrame
+import base64
+import altair as alt
+import plotly.express as px
+from gspread_pandas import Spread,Client
+from google.oauth2 import service_account
+import ssl 
 
 st.set_page_config(
     page_title="Text Mining Based Research Data"
@@ -25,6 +33,8 @@ def filedownload(df):
    b64 = base64.b64encode(csv.encode()).decode()  # strings <-> bytes conversions
    href = f'<a href="data:file/csv;base64,{b64}" download="dataset_info.csv">Download CSV File</a>'
    return href
+#%%
+#Link to google sheet
 #%%
 #Link to google sheet
 ssl._create_default_https_context = ssl._create_unverified_context
