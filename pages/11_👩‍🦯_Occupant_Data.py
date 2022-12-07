@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Oct 26 10:14:08 2022
+Created on Wed Oct 26 10:18:02 2022
 
 @author: 靳笑宇
 """
+
 import streamlit as st
 import pandas as pd
 from pandas import DataFrame
@@ -15,12 +16,9 @@ from google.oauth2 import service_account
 import ssl 
 
 st.set_page_config(
-    page_title="Building Energy Models"
+    page_title="Occupant Data"
 )
-st.write("# Building Energy Models")
-st.markdown("""
-            ##### The datasets about building energy models provide the files of constructed building energy models by simulation softwares such as EnergyPlus.\n
-            ##### Sometimes these datasets are also published with the output energy consumption data.""")
+st.write("# Occupant Data")
 #%%
 # Get the sheet as dataframe
 def load_the_spreadsheet(spreadsheetname):
@@ -49,7 +47,7 @@ client = Client(scope=scope,creds=credentials)
 spreadsheetname = "Dataset_Intro_List"
 spread = Spread(spreadsheetname,client = client)
 sh = client.open(spreadsheetname)
-dataset = load_the_spreadsheet('2.Building Energy Models')
+dataset = load_the_spreadsheet('11.Occupant')
 #%%
 dataset= dataset.reset_index(drop=True)
 
@@ -57,8 +55,7 @@ for i in range(len(dataset)):
     url = dataset['URL'][i]
     dataset['URL'][i] =  f'<a href="{url}">{url}</a>'
 dataset.index = dataset.index + 1 
-st.write('Data Dimension: ' + str(dataset.shape[0]) + ' rows and ' + str(dataset.shape[1]) + ' columns.')
 dataset_html = dataset.to_html(escape=False)
 st.write(dataset_html, unsafe_allow_html=True)
 #st.dataframe(dataset_info_filtered)
-st.markdown(filedownload(dataset), unsafe_allow_html=True)
+st.markdown(filedownload(dataset), unsafe_allow_html=True)     
