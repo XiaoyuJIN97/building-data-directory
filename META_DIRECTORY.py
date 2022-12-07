@@ -77,6 +77,8 @@ for i in range(len(dataset)):
 dataset.index = dataset.index + 1 
 users_html = dataset.iloc[:,:-1].to_html(escape=False)
 st.write(users_html, unsafe_allow_html=True)
+
+st.markdown("""*Any questions? Contact us📧: xiaoyu.jin@connect.polyu.hk*""")
 #%%
 def update_the_spreadsheet(spreadsheetname,dataframe):
     #col = ['Dataset Full Name','URL']
