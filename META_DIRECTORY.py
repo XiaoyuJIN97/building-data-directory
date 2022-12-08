@@ -19,13 +19,13 @@ st.set_page_config(
 
 #Text contents
 st.title("# Building Data Genome Directory")
-st.subheader('👋 Welcome to Building Data Directory! ')
+st.subheader('👋 Welcome to Building Data Genome Directory!')
 
 st.markdown(
     """
 ##### This is a comprehensive building dataset collection, where you can find the links for the datasets related with building energy research.\n
-##### You are also more than welcome to contribute your own datasets, by clicking the check button *'Add New Dataset'* on the left bar.
-""")
+##### You are also more than welcome to contribute your own datasets, by clicking the check button *'Add New Dataset'* on the left bar.\n
+##### Please note that we are looking forward to datasets with the geospatial granularity levels of **_individual buildings_** or **_communities_**, instead of aggregated data of a city.""")
 
 st.subheader('Dataset Categories')
 st.markdown(
